@@ -6,7 +6,9 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "astro dev",
+    "parse-daemon": "bun scripts/parse-daemon.ts",
+    "prebuild": "bun run parse-daemon",
+    "dev": "bun run parse-daemon && astro dev",
     "build": "astro build",
     "preview": "astro preview"
   },
