@@ -3,6 +3,11 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
+// Local hosts can be added via ALLOWED_HOSTS env var (comma-separated)
+// Example: ALLOWED_HOSTS=myhost,otherhost bun run dev
+const envHosts = process.env.ALLOWED_HOSTS?.split(',').filter(Boolean) || [];
+const allowedHosts = ['localhost', '.local', ...envHosts];
+
 export default defineConfig({
   output: 'static',
   integrations: [react()],
@@ -13,7 +18,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     server: {
-      allowedHosts: ['openwebui', 'localhost', '.local']
+      allowedHosts
     }
   }
 });

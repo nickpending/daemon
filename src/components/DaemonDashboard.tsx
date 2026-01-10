@@ -1,6 +1,7 @@
 import { useState, useEffect, Component } from 'react';
 import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
+import { daemonData as generatedData, toolCount as generatedToolCount } from '../generated/daemon-data';
 import {
   Target,
   Compass,
@@ -165,68 +166,22 @@ export function DaemonDashboard() {
   }, []);
 
   async function fetchDaemonData() {
-    // Static data - no MCP fetch needed
-    setToolCount(10);
+    // Data loaded from generated file (parsed from daemon.md at build time)
+    setToolCount(generatedToolCount);
     setDaemonData({
-      about: "I'm a 20-year Information Security veteran who pivoted hard into AI in 2025. I build open-source tools that let people own their data, their AI relationships, and their digital sovereignty.",
-      mission: "Build open infrastructure for personal data sovereignty. Help people own their data, own their AI relationships, and take their context with them — not depend on companies that will monetize them or institutions that can revoke access. Bridge 20 years of security expertise with AI to ensure this technology is deployed safely and accessibly.",
-      telos: [
-        "P0: Privacy as autonomy — people can't control what they share about themselves",
-        "P1: AI democratization — AI augmentation is stratified by wealth and access",
-        "M1: Build open infrastructure for personal data sovereignty — MIT licensed tools",
-        "M2: Bridge security and AI — bringing security-first thinking to AI"
-      ],
-      current_location: "Pacific Time Zone",
-      preferences: [
-        "Languages: Python, Go, TypeScript",
-        "Package manager: bun (never npm/yarn/pnpm)",
-        "Infrastructure: Self-hosted, Tailscale, zero-trust by default",
-        "Version control: Forgejo (self-hosted), GitHub mirrors for public",
-        "Philosophy: Build. Break. Learn. Push. Repeat."
-      ],
-      daily_routine: [
-        "Deep work blocks",
-        "Short feedback loops",
-        "Automation where it matters",
-        "Pragmatism over perfection"
-      ],
-      favorite_books: [
-        '"Blink" by Malcolm Gladwell',
-        '"On Writing" by Stephen King',
-        '"The Long Walk" by Richard Bachman (Stephen King)',
-        '"Friday" by Robert Heinlein',
-        '"Snow Crash" by Neal Stephenson',
-        '"Ready Player One" by Ernest Cline',
-        '"Daemon" by Daniel Suarez',
-        '"Kill Decision" by Daniel Suarez',
-        '"Change Agent" by Daniel Suarez',
-        '"Thing Explainer" by Randall Munroe',
-        '"Managing Humans" by Michael Lopp',
-        '"Mind Games" by Richard Thieme',
-        '"The Baby Harvest" by Chris Rock',
-        'Anything by Dan Geer',
-        '"Misbehaving" by Richard H. Thaler'
-      ],
-      favorite_movies: [
-        "The Matrix — rebellion against a system designed to manipulate",
-        "Gladiator — deep love and driver of family",
-        "Inception — it doesn't matter where we go because we'll be together",
-        "Heat — raw motivation",
-        "Tron 1 & 2 — digital convergence",
-        "Memento — knowingly deceiving yourself"
-      ],
-      predictions: [
-        "Observing, not predicting"
-      ],
+      about: generatedData.about,
+      mission: generatedData.mission,
+      telos: generatedData.telos,
+      current_location: generatedData.currentLocation,
+      preferences: generatedData.preferences,
+      daily_routine: generatedData.dailyRoutine,
+      favorite_books: generatedData.favoriteBooks,
+      favorite_movies: generatedData.favoriteMovies,
+      predictions: generatedData.predictions,
       projects: {
-        technical: [
-          "Sovereign Infrastructure: Self-hosted, privacy-first systems",
-          "AI Partnership Tools: Memory systems and frameworks",
-          "Privacy-First Applications: Tools for controlled sharing",
-          "The Context You Keep: https://context-you-keep.ai"
-        ]
+        technical: generatedData.whatImBuilding,
       },
-      last_updated: "2026-01-09"
+      last_updated: generatedData.lastUpdated,
     });
     setIsConnected(true);
     setLoading(false);
