@@ -4,6 +4,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [SemVer](http
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-01-10
+
+Build-time parser for single source of truth - dashboard and MCP server now derive from the same `daemon.md` file.
+
+### Added
+- `[upstream]` Build-time parser (`scripts/parse-daemon.ts`) generates TypeScript from `daemon.md`
+- `[upstream]` Type definitions (`src/types/daemon.types.ts`) for parsed data
+- `[upstream]` Architecture documentation (`docs/ARCHITECTURE.md`) with data flow diagrams
+- `[upstream]` README links to architecture docs
+
+### Changed
+- `[upstream]` Dashboard imports from generated data instead of hardcoded values
+- `[upstream]` Hero component imports location from generated data
+- `[local]` Astro config uses env var for allowed hosts (removes internal hostnames from repo)
+
+### Removed
+- `[upstream]` Hardcoded data in `DaemonDashboard.tsx` and `Hero.tsx`
+
 ## [1.2.0] - 2026-01-09
 
 TELOS page customization and dev environment setup.
@@ -49,7 +67,8 @@ Upstream had no releases; 1.0.0 establishes baseline. Includes Astro site, daemo
 
 See `docs/BACKLOG.md` for work items.
 
-[Unreleased]: https://github.com/0xsalt/daemon/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/0xsalt/daemon/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/0xsalt/daemon/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/0xsalt/daemon/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/0xsalt/daemon/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/0xsalt/daemon/compare/v1.0.0...v1.0.1

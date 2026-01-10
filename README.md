@@ -31,6 +31,7 @@ This is [0xsalt](https://github.com/0xsalt)'s fork of [danielmiessler/Daemon](ht
 | `feature/*` | Changes staged for upstream PRs |
 
 **Docs:**
+- [ARCHITECTURE](docs/ARCHITECTURE.md) - Build-time parser and data flow
 - [FORK-SETUP](docs/FORK-SETUP.md) - Deployment checklist
 - [ROADMAP](docs/ROADMAP.md) - Planned features
 - [BACKLOG](docs/BACKLOG.md) - Work tracking
@@ -98,9 +99,11 @@ npx wrangler pages deploy dist --project-name=your-daemon-name
 
 ## Architecture
 
+> **Full documentation:** See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed data flow diagrams and build-time parser documentation.
+
 ### The Data File
 
-The `public/daemon.md` file is the **source of truth** for your daemon's information. It uses a simple section-based format:
+The `public/daemon.md` file is the **source of truth** for your daemon's information. A build-time parser generates TypeScript from this file, ensuring both the dashboard and MCP server derive from the same source. It uses a simple section-based format:
 
 ```markdown
 [ABOUT]
