@@ -10,11 +10,13 @@ Content follows until the next section.
 
 [ABOUT]
 
-I'm a 20-year Information Security veteran who pivoted hard into AI in 2025. I build open-source tools that let people own their data, their AI relationships, and their digital sovereignty.
+I'm a 20-year Information Security veteran who recently pivoted hard into AI. I build open-source tools that help people own their data, build durable AI relationships, and take their context with them.
 
-My focus: **"The context you keep."** Building infrastructure that can't be taken away — self-hosted, privacy-first, MIT licensed.
+My focus: **"The context you keep."** Building infrastructure that endures. Self-hosted, privacy-first, MIT licensed.
 
-I believe autonomy and self-determination are gatekept by wealth and technical knowledge. I'm building tools to change that.
+I believe autonomy and self-determination should be practical realities, not privileges. I'm building tools to help make that true.
+
+My work sits at the intersection of security, autonomy, and long lived technical systems.
 
 [CURRENT_LOCATION]
 
@@ -22,7 +24,7 @@ Pacific Time Zone
 
 [MISSION]
 
-Build open infrastructure for personal data sovereignty. Help people own their data, own their AI relationships, and take their context with them — not depend on companies that will monetize them or institutions that can revoke access.
+Build open infrastructure for personal data sovereignty. Help people own their data, own their AI relationships, and take their context with them, not depend on companies that may monetize them or institutions that can revoke access.
 
 Bridge 20 years of security expertise with AI to ensure this technology is deployed safely and accessibly. Security-first thinking for a field moving faster than it understands.
 
@@ -31,13 +33,13 @@ Bridge 20 years of security expertise with AI to ensure this technology is deplo
 TELOS is my framework for tracking purpose and direction. It connects problems I see in the world to missions addressing them, goals to achieve, and projects making it real.
 
 Problems (P) - Issues I'm working to solve:
-- P0: Privacy as autonomy — people can't control what they share about themselves
-- P1: AI democratization — AI augmentation is stratified by wealth and access
-- P-Unified: Both are faces of the same issue — autonomy over your own life is gatekept
+- P0: Privacy as autonomy. People can't control what they share about themselves
+- P1: AI democratization. Access to AI augmentation is stratified by wealth and opportunity
+- P-Unified: Both are faces of the same issue: autonomy over your own life is unevenly controlled
 
 Missions (M) - What I'm doing about it:
-- M1: Build open infrastructure for personal data sovereignty — MIT licensed tools that let people own their context
-- M2: Bridge security and AI — bringing security-first thinking to a field driving a Ferrari in its infancy
+- M1: Build open infrastructure for personal data sovereignty. Freely available tools that let people own their context.
+- M2: Bridge security and AI. Bring security-first thinking to a field accelrating faster than it understnads its risks.
 
 Theme: "The context you keep."
 
@@ -47,7 +49,7 @@ Theme: "The context you keep."
 - AI Partnership Tools: Memory systems and frameworks that let people own their AI relationships
 - Privacy-First Applications: Tools for controlled sharing without surveillance
 
-Everything open source. Everything MIT licensed.
+Everything open source. Everything MIT licensed. Built to be used, modified, and carried forward.
 
 [FAVORITE_BOOKS]
 
@@ -70,14 +72,14 @@ Everything open source. Everything MIT licensed.
 [FAVORITE_MOVIES]
 
 Top 3 (no contest):
-- The Matrix — rebellion against a system designed to manipulate
-- Gladiator — deep love and driver of family
-- Inception — "it doesn't matter where we go because we'll be together"
+- The Matrix: rebellion against a system designed to manipulate
+- Inception: "it doesn't matter where we go because we'll be together"
+- Gladiator: deep love and driver of family
 
 Also:
-- Heat — raw motivation
-- Tron 1 & 2 — digital convergence
-- Memento — knowingly deceiving yourself
+- Heat: raw motivation
+- Tron 1 & 2: digital convergence
+- Memento: knowingly deceiving yourself
 
 [FAVORITE_TV]
 
@@ -92,7 +94,7 @@ Also:
 - Package manager: bun (never npm/yarn/pnpm)
 - Infrastructure: Self-hosted, Tailscale, zero-trust by default
 - Version control: Forgejo (self-hosted), GitHub mirrors for public
-- Work style: Deep focus, rage-build when blocked, iterate fast
+- Work style: Deep focus, high-intensity build mode when blocked, iterate fast
 - Philosophy: Build. Break. Learn. Push. Repeat.
 - Values: Sovereignty, privacy, accessibility, open source
 
@@ -102,7 +104,7 @@ Deep work blocks. Short feedback loops. Automation where it matters. Pragmatism 
 
 [PREDICTIONS]
 
-(To be added — currently observing, not predicting)
+(To be added: Currently observing, not predicting)
 
 [PHILOSOPHY]
 
