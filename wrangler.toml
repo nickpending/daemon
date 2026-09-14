@@ -1,3 +1,6 @@
-name = "rudy-daemon"
-pages_build_output_dir = "dist"
+name = "daemon"
 compatibility_date = "2025-08-20"
+
+[assets]
+directory = "./dist"
+not_found_handling = "404-page"
