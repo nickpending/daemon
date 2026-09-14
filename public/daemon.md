@@ -10,13 +10,11 @@ Content follows until the next section.
 
 [ABOUT]
 
-I'm a 20-year Information Security veteran who recently pivoted hard into AI. I build open-source tools that help people own their data, build durable AI relationships, and take their context with them.
+20+ years in security. Principal engineer building AI agents that work autonomously. BJJ black belt. Philosophy autodidact.
 
-My focus: **"The context you keep."** Building infrastructure that endures. Self-hosted, privacy-first, MIT licensed.
+Security and philosophy scratch the same itch — deconstructing black boxes to understand how they actually work. Security is applied epistemology: how do we *know* our systems are secure? The drive has always been the same: understanding systems, whether they're logical arguments, network architectures, or myself.
 
-I believe autonomy and self-determination should be practical realities, not privileges. I'm building tools to help make that true.
-
-My work sits at the intersection of security, autonomy, and long lived technical systems.
+The pursuit itself is the purpose.
 
 [CURRENT_LOCATION]
 
@@ -24,94 +22,118 @@ Pacific Time Zone
 
 [MISSION]
 
-Build open infrastructure for personal data sovereignty. Help people own their data, own their AI relationships, and take their context with them, not depend on companies that may monetize them or institutions that can revoke access.
+Encode domain expertise into systems that scale beyond any individual — turning tacit knowledge into tools, prompts, and workflows that others can use. Build infrastructure that moves actionable intelligence to decision-makers at the speed decisions need to be made, not after.
 
-Bridge 20 years of security expertise with AI to ensure this technology is deployed safely and accessibly. Security-first thinking for a field moving faster than it understands.
+Reduce the structural disadvantage defenders carry. Automation that absorbs the drudgery — compliance, data wrangling, repetitive analysis — so humans focus on judgment and creativity.
+
+Define the hacker-strategist by doing the work. Technical depth combined with strategic thinking, adversarial creativity with systems understanding. Demonstrate where the role lives and what it produces.
+
+Bridge 20 years of security experience with AI to ensure these systems are deployed thoughtfully. Security-first thinking for technology moving faster than most understand.
 
 [TELOS]
 
-TELOS is my framework for tracking purpose and direction. It connects problems I see in the world to missions addressing them, goals to achieve, and projects making it real.
-
-Problems (P) - Issues I'm working to solve:
-- P0: Privacy as autonomy. People can't control what they share about themselves
-- P1: AI democratization. Access to AI augmentation is stratified by wealth and opportunity
-- P-Unified: Both are faces of the same issue: autonomy over your own life is unevenly controlled
+Problems (P) - What I'm working to solve:
+- P1: Expertise has the same velocity problem as data — what people know doesn't flow to where it's needed
+- P2: The right data doesn't reach the right people at the right time — actionable intelligence doesn't reach decision-makers fast enough
+- P3: Technical-strategic thinkers lack organizational homes — the hacker-strategist doesn't fit existing roles
+- P4: Defenders carry structural weight attackers don't — compliance, approvals, organizational friction
+- P5: Timeliness in security discovery — significant delays from identification to protection
 
 Missions (M) - What I'm doing about it:
-- M1: Build open infrastructure for personal data sovereignty. Freely available tools that let people own their context.
-- M2: Bridge security and AI. Bring security-first thinking to a field accelrating faster than it understnads its risks.
+- M1: Encode domain expertise into systems that scale — turning tacit knowledge into tools others can use
+- M2: Build infrastructure that gets actionable intelligence to decision-makers at the speed decisions need to be made
+- M3: Embody and define the hacker-strategist role — demonstrating where it lives and what it produces
+- M4: Build systems that reduce defender friction — automation that handles drudgery so humans focus on judgment
 
-Theme: "The context you keep."
+Goals (G) - Where I'm headed:
+- G1: Encode expertise into systems — decision trees, heuristics, prompts that scale beyond me
+- G2: Build purpose-built tools — clean outputs that eliminate data-wrangling friction
+- G3: Clarify the hacker-strategist — publish work demonstrating the role and what it produces
+- G4: Automate defender drudgery — free analysts for judgment, not process
+
+Theme: "The pursuit itself is the purpose."
+
+[EXPLORATIONS]
+
+Current areas of active investigation and learning.
+
+- Momentum Workflow Precision: Improving agent orchestration with better task decomposition, verification chains, and self-correction patterns.
+- Verification Chain Architecture: Multi-stage validation for agent outputs — confidence scoring, evidence requirements, and graceful degradation.
+- Self-Correction Hooks: Patterns for agents to detect and recover from errors autonomously without human intervention.
+- Lightweight Prompt Architecture: Reducing prompt complexity while maintaining capability — skill-scoped context loading.
+- PreToolUse Context Enrichment: Using hooks to inject relevant context before tool execution for better agent decisions.
 
 [WHAT_IM_BUILDING]
 
-- Sovereign Infrastructure: Self-hosted, privacy-first systems that don't depend on cloud providers
-- AI Partnership Tools: Memory systems and frameworks that let people own their AI relationships
-- Privacy-First Applications: Tools for controlled sharing without surveillance
-
-Everything open source. Everything MIT licensed. Built to be used, modified, and carried forward.
+- Momentum — Agent orchestration framework for task planning, specialist agents, and verification workflows.
+- Lore — Unified knowledge CLI for semantic search across projects, commits, and personal data.
+- Argus — Agent observability for session tracking, real-time status, and event monitoring.
+- Prismis — Content curation for article capture, summarization, and reading queue management.
+- Lore-Web — Web interface for the Lore knowledge base.
+- LLMConf — LLM configuration management across tools.
+- Ghostwire — Multiplayer cyberpunk text adventure with AI-powered NPCs.
 
 [FAVORITE_BOOKS]
 
-- "Blink" by Malcolm Gladwell
-- "On Writing" by Stephen King
-- "The Long Walk" by Richard Bachman (Stephen King)
-- "Friday" by Robert Heinlein
-- "Snow Crash" by Neal Stephenson
-- "Ready Player One" by Ernest Cline
-- "Daemon" by Daniel Suarez
-- "Kill Decision" by Daniel Suarez
-- "Change Agent" by Daniel Suarez
-- "Thing Explainer" by Randall Munroe
-- "Managing Humans" by Michael Lopp
-- "Mind Games" by Richard Thieme
-- "The Baby Harvest" by Chris Rock
-- Anything by Dan Geer
-- "Misbehaving" by Richard H. Thaler
+- Ten Philosophical Mistakes — Mortimer J. Adler
+- The Abolition of Man — C.S. Lewis
+- Surprised by Joy — C.S. Lewis
+- The Four Agreements — Miguel Ruiz
+- Neverwhere — Neil Gaiman
+- Frankenstein — Mary Shelley
+- The Name of the Wind — Patrick Rothfuss
+- Dune — Frank Herbert
+- The Hitchhiker's Guide to the Galaxy — Douglas Adams
+- Brave New World — Aldous Huxley
 
 [FAVORITE_MOVIES]
 
-Top 3 (no contest):
-- The Matrix: rebellion against a system designed to manipulate
-- Inception: "it doesn't matter where we go because we'll be together"
-- Gladiator: deep love and driver of family
-
-Also:
-- Heat: raw motivation
-- Tron 1 & 2: digital convergence
-- Memento: knowingly deceiving yourself
-
-[FAVORITE_TV]
-
-- Billions
-- Sakamoto Days
-
-(More to add later)
+- Pan's Labyrinth — fantasy as escape and truth
+- The Princess Bride — perfect execution
+- Whiplash — obsession, mastery, cost
+- Blade Runner — what makes us human
+- The Matrix — reality, choice, awakening
+- No Country for Old Men — inexorable force
+- Interstellar — love across dimensions
+- Inception — layers of reality
+- Children of Men — hope in collapse
 
 [PREFERENCES]
 
 - Languages: Python, Go, TypeScript
-- Package manager: bun (never npm/yarn/pnpm)
-- Infrastructure: Self-hosted, Tailscale, zero-trust by default
-- Version control: Forgejo (self-hosted), GitHub mirrors for public
-- Work style: Deep focus, high-intensity build mode when blocked, iterate fast
-- Philosophy: Build. Break. Learn. Push. Repeat.
-- Values: Sovereignty, privacy, accessibility, open source
+- Package manager: bun
+- AI tooling: Claude Code, Agent SDK
+- Infrastructure: Local-first, composable, observable
+- Work style: Deep focus blocks, high-intensity build mode, iterate fast
 
 [DAILY_ROUTINE]
 
-Deep work blocks. Short feedback loops. Automation where it matters. Pragmatism over perfection.
+Energy-based, not schedule-based. Frameworks over calendars.
 
-[PREDICTIONS]
+Morning: Daily Stoic reading, intention setting.
+Work: Deep focus blocks, agent development, security research.
+Evening: Reflection — What did I learn? Improve? Enjoy? What kind act did I do?
 
-(To be added: Currently observing, not predicting)
+Protect time for: BJJ training, philosophy reading, family presence.
 
 [PHILOSOPHY]
 
-"This isn't about building another platform that owns your data. It's about building tools that free you to move fast, stay light, and own your momentum."
+Strong-minded, soft-hearted. Balancing intellectual rigor with emotional empathy.
 
-Rapid Development. High-Signal Feedback Loops. Sovereign Infrastructure.
+Intellectual humility — embracing Plato's philosophy of knowing what I don't know. Truth-seeking over being right. Multiple perspectives enrich understanding.
+
+Work smarter, not harder. Automation before manual processes. Tools should reduce friction, not add it.
+
+Each day functions as improvisation based on key principles rather than rigid script.
+
+[CONTACT]
+
+- GitHub: https://github.com/nickpending
+- Mastodon: https://infosec.exchange/@nickpending
+- Substack: https://substack.com/@nickpending
+- LinkedIn: https://www.linkedin.com/in/securityarchitecture/
+- Blog: https://labs.voidwire.info
 
 ---
 
-*Last updated: 2026-01-09*
+*Last updated: 2026-01-24*

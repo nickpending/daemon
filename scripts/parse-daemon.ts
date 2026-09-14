@@ -5,7 +5,13 @@
  * Run with: bun scripts/parse-daemon.ts
  */
 
-import type { DaemonSections, DaemonData, HeroData } from "../src/types/daemon.types";
+import type {
+  DaemonSections,
+  DaemonData,
+  HeroData,
+  Exploration,
+  ContactLink,
+} from "../src/types/daemon.types";
 
 const PROJECT_ROOT = import.meta.dir.replace("/scripts", "");
 const DAEMON_MD_PATH = `${PROJECT_ROOT}/public/daemon.md`;
@@ -16,113 +22,164 @@ const OUTPUT_PATH = `${OUTPUT_DIR}/daemon-data.ts`;
  * Parse daemon.md into sections
  */
 function parseDaemonMd(content: string): DaemonSections {
-	const sections: DaemonSections = {};
-	const lines = content.split("\n");
-	let currentSection = "";
-	let currentContent: string[] = [];
+  const sections: DaemonSections = {};
+  const lines = content.split("\n");
+  let currentSection = "";
+  let currentContent: string[] = [];
 
-	for (const line of lines) {
-		const sectionMatch = line.match(/^\[([A-Z_]+)\]$/);
-		if (sectionMatch) {
-			if (currentSection) {
-				sections[currentSection as keyof DaemonSections] = currentContent.join("\n").trim();
-			}
-			currentSection = sectionMatch[1];
-			currentContent = [];
-		} else if (currentSection) {
-			currentContent.push(line);
-		}
-	}
+  for (const line of lines) {
+    const sectionMatch = line.match(/^\[([A-Z_]+)\]$/);
+    if (sectionMatch) {
+      if (currentSection) {
+        sections[currentSection as keyof DaemonSections] = currentContent
+          .join("\n")
+          .trim();
+      }
+      currentSection = sectionMatch[1];
+      currentContent = [];
+    } else if (currentSection) {
+      currentContent.push(line);
+    }
+  }
 
-	if (currentSection) {
-		sections[currentSection as keyof DaemonSections] = currentContent.join("\n").trim();
-	}
+  if (currentSection) {
+    sections[currentSection as keyof DaemonSections] = currentContent
+      .join("\n")
+      .trim();
+  }
 
-	return sections;
+  return sections;
 }
 
 /**
  * Extract list items from markdown content
  */
 function parseList(content: string | undefined): string[] {
-	if (!content) return [];
+  if (!content) return [];
 
-	const items: string[] = [];
-	for (const line of content.split("\n")) {
-		const trimmed = line.trim();
-		if (trimmed.startsWith("- ")) {
-			items.push(trimmed.slice(2));
-		}
-	}
-	return items;
+  const items: string[] = [];
+  for (const line of content.split("\n")) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith("- ")) {
+      items.push(trimmed.slice(2));
+    }
+  }
+  return items;
 }
 
 /**
  * Parse TELOS section into structured items
  */
 function parseTelos(content: string | undefined): string[] {
-	if (!content) return [];
+  if (!content) return [];
 
-	const items: string[] = [];
-	for (const line of content.split("\n")) {
-		const trimmed = line.trim();
-		// Match lines like "- P0: description" or "- M1: description"
-		if (trimmed.match(/^-\s*[PMG]\d*:/)) {
-			items.push(trimmed.slice(2)); // Remove "- " prefix
-		}
-	}
-	return items;
+  const items: string[] = [];
+  for (const line of content.split("\n")) {
+    const trimmed = line.trim();
+    // Match lines like "- P0: description" or "- M1: description"
+    if (trimmed.match(/^-\s*[PMG]\d*:/)) {
+      items.push(trimmed.slice(2)); // Remove "- " prefix
+    }
+  }
+  return items;
+}
+
+/**
+ * Parse EXPLORATIONS section into structured items with title and description
+ */
+function parseExplorations(content: string | undefined): Exploration[] {
+  if (!content) return [];
+
+  const items: Exploration[] = [];
+  for (const line of content.split("\n")) {
+    const trimmed = line.trim();
+    // Match lines like "- Title: Description"
+    const match = trimmed.match(/^-\s*([^:]+):\s*(.+)$/);
+    if (match) {
+      items.push({
+        title: match[1].trim(),
+        description: match[2].trim(),
+      });
+    }
+  }
+  return items;
+}
+
+/**
+ * Parse CONTACT section into platform/url pairs
+ */
+function parseContact(content: string | undefined): ContactLink[] {
+  if (!content) return [];
+
+  const items: ContactLink[] = [];
+  for (const line of content.split("\n")) {
+    const trimmed = line.trim();
+    // Match lines like "- Platform: https://..."
+    const match = trimmed.match(/^-\s*([^:]+):\s*(https?:\/\/.+)$/);
+    if (match) {
+      items.push({
+        platform: match[1].trim(),
+        url: match[2].trim(),
+      });
+    }
+  }
+  return items;
 }
 
 /**
  * Extract last updated date from daemon.md footer
  */
 function parseLastUpdated(content: string): string {
-	const match = content.match(/\*Last updated:\s*(\d{4}-\d{2}-\d{2})\*/);
-	return match ? match[1] : new Date().toISOString().slice(0, 10);
+  const match = content.match(/\*Last updated:\s*(\d{4}-\d{2}-\d{2})\*/);
+  return match ? match[1] : new Date().toISOString().slice(0, 10);
 }
 
 /**
  * Transform raw sections into DaemonData
  */
-function transformToDaemonData(sections: DaemonSections, rawContent: string): DaemonData {
-	return {
-		about: sections.ABOUT || "",
-		mission: sections.MISSION || "",
-		telos: parseTelos(sections.TELOS),
-		currentLocation: sections.CURRENT_LOCATION || "",
-		philosophy: sections.PHILOSOPHY || "",
-		whatImBuilding: parseList(sections.WHAT_IM_BUILDING),
-		preferences: parseList(sections.PREFERENCES),
-		dailyRoutine: sections.DAILY_ROUTINE ? [sections.DAILY_ROUTINE] : [],
-		favoriteBooks: parseList(sections.FAVORITE_BOOKS),
-		favoriteMovies: parseList(sections.FAVORITE_MOVIES),
-		favoriteTv: parseList(sections.FAVORITE_TV),
-		predictions: sections.PREDICTIONS?.includes("To be added")
-			? ["Observing, not predicting"]
-			: parseList(sections.PREDICTIONS),
-		lastUpdated: parseLastUpdated(rawContent),
-	};
+function transformToDaemonData(
+  sections: DaemonSections,
+  rawContent: string,
+): DaemonData {
+  return {
+    about: sections.ABOUT || "",
+    mission: sections.MISSION || "",
+    telos: parseTelos(sections.TELOS),
+    currentLocation: sections.CURRENT_LOCATION || "",
+    philosophy: sections.PHILOSOPHY || "",
+    explorations: parseExplorations(sections.EXPLORATIONS),
+    whatImBuilding: parseList(sections.WHAT_IM_BUILDING),
+    preferences: parseList(sections.PREFERENCES),
+    dailyRoutine: sections.DAILY_ROUTINE ? [sections.DAILY_ROUTINE] : [],
+    favoriteBooks: parseList(sections.FAVORITE_BOOKS),
+    favoriteMovies: parseList(sections.FAVORITE_MOVIES),
+    favoriteTv: parseList(sections.FAVORITE_TV),
+    predictions: sections.PREDICTIONS?.includes("To be added")
+      ? ["Observing, not predicting"]
+      : parseList(sections.PREDICTIONS),
+    contact: parseContact(sections.CONTACT),
+    lastUpdated: parseLastUpdated(rawContent),
+  };
 }
 
 /**
  * Extract hero-specific data
  */
 function extractHeroData(sections: DaemonSections): HeroData {
-	const missionLines = (sections.MISSION || "").split(".");
+  const missionLines = (sections.MISSION || "").split(".");
 
-	return {
-		tagline: "The Context You Keep",
-		location: sections.CURRENT_LOCATION || "",
-		subtitle: missionLines[0] ? missionLines[0].trim() + "." : "",
-	};
+  return {
+    tagline: "The Pursuit Itself Is The Purpose",
+    location: sections.CURRENT_LOCATION || "",
+    subtitle: missionLines[0] ? missionLines[0].trim() + "." : "",
+  };
 }
 
 /**
  * Generate TypeScript output file
  */
 function generateOutput(data: DaemonData, heroData: HeroData): string {
-	return `/**
+  return `/**
  * AUTO-GENERATED FILE - DO NOT EDIT
  *
  * Generated from public/daemon.md by scripts/parse-daemon.ts
@@ -146,37 +203,38 @@ export const toolCount = 14;
 
 // Main execution
 async function main() {
-	console.log("Parsing daemon.md...");
+  console.log("Parsing daemon.md...");
 
-	// Read source file
-	const file = Bun.file(DAEMON_MD_PATH);
-	if (!(await file.exists())) {
-		console.error(`Error: ${DAEMON_MD_PATH} not found`);
-		process.exit(1);
-	}
+  // Read source file
+  const file = Bun.file(DAEMON_MD_PATH);
+  if (!(await file.exists())) {
+    console.error(`Error: ${DAEMON_MD_PATH} not found`);
+    process.exit(1);
+  }
 
-	const content = await file.text();
+  const content = await file.text();
 
-	// Parse sections
-	const sections = parseDaemonMd(content);
-	console.log(`Found ${Object.keys(sections).length} sections`);
+  // Parse sections
+  const sections = parseDaemonMd(content);
+  console.log(`Found ${Object.keys(sections).length} sections`);
 
-	// Transform data
-	const daemonData = transformToDaemonData(sections, content);
-	const heroData = extractHeroData(sections);
+  // Transform data
+  const daemonData = transformToDaemonData(sections, content);
+  const heroData = extractHeroData(sections);
 
-	// Ensure output directory exists
-	await Bun.$`mkdir -p ${OUTPUT_DIR}`.quiet();
+  // Ensure output directory exists
+  await Bun.$`mkdir -p ${OUTPUT_DIR}`.quiet();
 
-	// Write output
-	const output = generateOutput(daemonData, heroData);
-	await Bun.write(OUTPUT_PATH, output);
+  // Write output
+  const output = generateOutput(daemonData, heroData);
+  await Bun.write(OUTPUT_PATH, output);
 
-	console.log(`Generated: ${OUTPUT_PATH}`);
-	console.log(`  - ${daemonData.favoriteBooks.length} books`);
-	console.log(`  - ${daemonData.favoriteMovies.length} movies`);
-	console.log(`  - ${daemonData.telos.length} TELOS items`);
-	console.log(`  - ${daemonData.whatImBuilding.length} projects`);
+  console.log(`Generated: ${OUTPUT_PATH}`);
+  console.log(`  - ${daemonData.favoriteBooks.length} books`);
+  console.log(`  - ${daemonData.favoriteMovies.length} movies`);
+  console.log(`  - ${daemonData.telos.length} TELOS items`);
+  console.log(`  - ${daemonData.explorations.length} explorations`);
+  console.log(`  - ${daemonData.whatImBuilding.length} projects`);
 }
 
 main();

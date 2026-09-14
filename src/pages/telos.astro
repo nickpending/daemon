@@ -1,5 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { daemonData } from '../generated/daemon-data';
+
+// Split telos items into problems, missions, and goals
+const problems = daemonData.telos.filter(item => item.startsWith('P'));
+const missions = daemonData.telos.filter(item => item.startsWith('M'));
+const goals = daemonData.telos.filter(item => item.startsWith('G'));
 ---
 
 <Layout title="TELOS | Problems Missions Goals and Life Direction" description="Personal framework for tracking purpose and direction in life">
@@ -9,7 +15,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="mb-12">
         <h1 class="font-display text-4xl sm:text-5xl text-gradient mb-4">TELOS Framework</h1>
         <p class="font-body text-lg text-text-secondary">
-          A structured approach to understanding problems, defining missions, setting goals, and measuring progress.
+          Problems I'm working to solve and missions I'm pursuing.
         </p>
       </div>
 
@@ -20,51 +26,26 @@ import Layout from '../layouts/Layout.astro';
           <h2 class="font-heading text-2xl text-text-primary">Problems</h2>
         </div>
         <p class="font-body text-text-secondary mb-6">
-          The fundamental issues I see in the world that need addressing.
+          What I'm working to solve.
         </p>
 
-        <div class="space-y-6">
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <div class="flex items-start gap-4">
-              <span class="font-mono text-sm font-bold text-accent shrink-0">P1</span>
-              <div>
-                <h3 class="font-heading text-lg text-text-primary mb-2">Privacy as Autonomy</h3>
-                <ul class="space-y-2 font-body text-sm text-text-secondary">
-                  <li>• The average person cannot control what they share about themselves</li>
-                  <li>• Privacy isn't about hiding — it's about the right to reveal exactly and only what you choose</li>
-                  <li>• This control is currently available only to those with technical knowledge or money</li>
-                </ul>
+        <div class="space-y-4">
+          {problems.map((item) => {
+            const match = item.match(/^(P\d+):\s*(.+?)\s*—\s*(.+)$/);
+            if (!match) return null;
+            const [, id, title, description] = match;
+            return (
+              <div class="bg-bg-secondary border border-border-default p-5">
+                <div class="flex items-start gap-4">
+                  <span class="font-mono text-sm font-bold text-accent shrink-0">{id}</span>
+                  <div>
+                    <h3 class="font-heading text-base text-text-primary mb-1">{title}</h3>
+                    <p class="font-body text-sm text-text-secondary">{description}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <div class="flex items-start gap-4">
-              <span class="font-mono text-sm font-bold text-accent shrink-0">P2</span>
-              <div>
-                <h3 class="font-heading text-lg text-text-primary mb-2">AI Democratization</h3>
-                <ul class="space-y-2 font-body text-sm text-text-secondary">
-                  <li>• Human-AI convergence is happening, but access is stratified</li>
-                  <li>• AI should not be a tool only for elites</li>
-                  <li>• The technology that could level playing fields is instead deepening divides</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <div class="flex items-start gap-4">
-              <span class="font-mono text-sm font-bold text-accent shrink-0">P3</span>
-              <div>
-                <h3 class="font-heading text-lg text-text-primary mb-2">Autonomy is Gatekept</h3>
-                <ul class="space-y-2 font-body text-sm text-text-secondary">
-                  <li>• Both P1 and P2 are faces of the same issue</li>
-                  <li>• Wealth and technical knowledge determine who gets self-determination</li>
-                  <li>• I'm working on both fronts to change this</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </section>
 
@@ -75,136 +56,63 @@ import Layout from '../layouts/Layout.astro';
           <h2 class="font-heading text-2xl text-text-primary">Missions</h2>
         </div>
         <p class="font-body text-text-secondary mb-6">
-          My response to these problems through focused action.
+          What I'm doing about it.
         </p>
 
-        <div class="space-y-6">
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <div class="flex items-start gap-4">
-              <span class="font-mono text-sm font-bold text-brand shrink-0">M1</span>
-              <div>
-                <h3 class="font-heading text-lg text-text-primary mb-2">Build Open Infrastructure for Personal Data Sovereignty</h3>
-                <ul class="space-y-2 font-body text-sm text-text-secondary">
-                  <li>• Build tools — all MIT licensed — that let people own their data</li>
-                  <li>• Own their AI relationships and take their context with them</li>
-                  <li>• Not depend on companies that monetize them or institutions that revoke access</li>
-                </ul>
+        <div class="space-y-4">
+          {missions.map((item) => {
+            const match = item.match(/^(M\d+):\s*(.+?)\s*—\s*(.+)$/);
+            if (!match) return null;
+            const [, id, title, description] = match;
+            return (
+              <div class="bg-bg-secondary border border-border-default p-5">
+                <div class="flex items-start gap-4">
+                  <span class="font-mono text-sm font-bold text-brand shrink-0">{id}</span>
+                  <div>
+                    <h3 class="font-heading text-base text-text-primary mb-1">{title}</h3>
+                    <p class="font-body text-sm text-text-secondary">{description}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <div class="flex items-start gap-4">
-              <span class="font-mono text-sm font-bold text-brand shrink-0">M2</span>
-              <div>
-                <h3 class="font-heading text-lg text-text-primary mb-2">Bridge Security and AI</h3>
-                <ul class="space-y-2 font-body text-sm text-text-secondary">
-                  <li>• Leverage 20 years of Information Security expertise</li>
-                  <li>• Ensure AI is deployed safely and accessibly</li>
-                  <li>• Bring security-first thinking to a field moving faster than it understands</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <div class="flex items-start gap-4">
-              <span class="font-mono text-sm font-bold text-brand shrink-0">M3</span>
-              <div>
-                <h3 class="font-heading text-lg text-text-primary mb-2">Share Knowledge Openly</h3>
-                <ul class="space-y-2 font-body text-sm text-text-secondary">
-                  <li>• Build in public, share what works</li>
-                  <li>• Everything open source, everything MIT licensed</li>
-                  <li>• Because this shouldn't be just for elites</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </section>
 
       <!-- Goals -->
       <section class="mb-12">
         <div class="flex items-center gap-3 mb-6">
-          <span class="font-mono text-sm font-bold text-success bg-success/20 px-3 py-1 rounded">G</span>
+          <span class="font-mono text-sm font-bold text-green-400 bg-green-400/20 px-3 py-1 rounded">G</span>
           <h2 class="font-heading text-2xl text-text-primary">Goals</h2>
         </div>
         <p class="font-body text-text-secondary mb-6">
-          Specific, measurable outcomes I'm working toward.
+          Where I'm headed.
         </p>
 
-        <div class="space-y-6">
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <div class="flex items-start gap-4">
-              <span class="font-mono text-sm font-bold text-success shrink-0">G1</span>
-              <div>
-                <h3 class="font-heading text-lg text-text-primary mb-2">Sovereign Infrastructure</h3>
-                <ul class="space-y-2 font-body text-sm text-text-secondary">
-                  <li>• Self-hosted, privacy-first, local-first systems</li>
-                  <li>• No dependency on cloud providers or platforms</li>
-                  <li>• Infrastructure that can't be taken away</li>
-                </ul>
+        <div class="space-y-4">
+          {goals.map((item) => {
+            const match = item.match(/^(G\d+):\s*(.+?)\s*—\s*(.+)$/);
+            if (!match) return null;
+            const [, id, title, description] = match;
+            return (
+              <div class="bg-bg-secondary border border-border-default p-5">
+                <div class="flex items-start gap-4">
+                  <span class="font-mono text-sm font-bold text-green-400 shrink-0">{id}</span>
+                  <div>
+                    <h3 class="font-heading text-base text-text-primary mb-1">{title}</h3>
+                    <p class="font-body text-sm text-text-secondary">{description}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <div class="flex items-start gap-4">
-              <span class="font-mono text-sm font-bold text-success shrink-0">G2</span>
-              <div>
-                <h3 class="font-heading text-lg text-text-primary mb-2">AI Partnership Tools</h3>
-                <ul class="space-y-2 font-body text-sm text-text-secondary">
-                  <li>• Memory systems and persona generators</li>
-                  <li>• Frameworks that let people own their AI relationships</li>
-                  <li>• Not renting capability from corporations</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <div class="flex items-start gap-4">
-              <span class="font-mono text-sm font-bold text-success shrink-0">G3</span>
-              <div>
-                <h3 class="font-heading text-lg text-text-primary mb-2">Privacy-First Applications</h3>
-                <ul class="space-y-2 font-body text-sm text-text-secondary">
-                  <li>• Tools for selective sharing</li>
-                  <li>• Share what you want, when you want, with whom you want</li>
-                  <li>• And nothing more</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Metrics -->
-      <section class="mb-12">
-        <h2 class="font-heading text-2xl text-text-primary mb-6">Metrics (KPIs)</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <h3 class="font-heading text-lg text-brand mb-2">Sovereignty</h3>
-            <p class="font-body text-sm text-text-secondary">Tools deployed, data owned locally, dependencies eliminated</p>
-          </div>
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <h3 class="font-heading text-lg text-brand mb-2">Adoption</h3>
-            <p class="font-body text-sm text-text-secondary">Open source downloads, forks, community contributions</p>
-          </div>
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <h3 class="font-heading text-lg text-brand mb-2">Learning</h3>
-            <p class="font-body text-sm text-text-secondary">Build cycles completed, lessons documented, skills acquired</p>
-          </div>
-          <div class="bg-bg-secondary rounded-xl border border-border-default p-6">
-            <h3 class="font-heading text-lg text-brand mb-2">Impact</h3>
-            <p class="font-body text-sm text-text-secondary">People helped, autonomy enabled, gatekeeping reduced</p>
-          </div>
+            );
+          })}
         </div>
       </section>
 
       <!-- Footer -->
       <section class="border-t border-border-subtle pt-8">
         <p class="font-body text-sm text-text-tertiary italic">
-          TELOS is a living framework that evolves as I learn and grow. The north star stays fixed: build tools that give people sovereignty over their own lives. Theme: "The context you keep."
+          "The pursuit itself is the purpose."
         </p>
       </section>
     </div>

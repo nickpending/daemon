@@ -11,6 +11,7 @@ export interface DaemonSections {
   CURRENT_LOCATION?: string;
   MISSION?: string;
   TELOS?: string;
+  EXPLORATIONS?: string;
   WHAT_IM_BUILDING?: string;
   FAVORITE_BOOKS?: string;
   FAVORITE_MOVIES?: string;
@@ -19,17 +20,30 @@ export interface DaemonSections {
   DAILY_ROUTINE?: string;
   PREDICTIONS?: string;
   PHILOSOPHY?: string;
+  CONTACT?: string;
 }
 
 /**
  * Processed daemon data ready for component consumption
  */
+export interface Exploration {
+  title: string;
+  description: string;
+  tags?: string[];
+}
+
+export interface ContactLink {
+  platform: string;
+  url: string;
+}
+
 export interface DaemonData {
   about: string;
   mission: string;
   telos: string[];
   currentLocation: string;
   philosophy: string;
+  explorations: Exploration[];
   whatImBuilding: string[];
   preferences: string[];
   dailyRoutine: string[];
@@ -37,6 +51,7 @@ export interface DaemonData {
   favoriteMovies: string[];
   favoriteTv: string[];
   predictions: string[];
+  contact: ContactLink[];
   lastUpdated: string;
 }
 

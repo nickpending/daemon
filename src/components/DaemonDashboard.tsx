@@ -1,58 +1,30 @@
-import { useState, useEffect, Component } from 'react';
-import type { ReactNode } from 'react';
-import { motion } from 'framer-motion';
-import { daemonData as generatedData, toolCount as generatedToolCount } from '../generated/daemon-data';
+import { useState, useEffect, Component } from "react";
+import type { ReactNode } from "react";
+import { motion } from "framer-motion";
+import {
+  daemonData as generatedData,
+  toolCount as generatedToolCount,
+} from "../generated/daemon-data";
+import type { Exploration, ContactLink } from "../types/daemon.types";
 import {
   Target,
   Compass,
-  BookMarked,
-  Film,
-  TrendingUp,
-  Settings,
-  Clock,
-  Briefcase,
+  BookOpen,
+  Heart,
+  Wrench,
+  MessageSquare,
   Server,
   Loader2,
   AlertCircle,
   RefreshCw,
-  ExternalLink
-} from 'lucide-react';
-
-/**
- * Daemon Data Interface
- * Matches the schema from daemon-mcp/schema/daemon.types.ts
- * NO placeholder data - only what the API provides
- */
-interface DaemonData {
-  // Core Identity
-  about?: string;
-  mission?: string;
-  telos?: string | string[];
-  current_location?: string;
-
-  // Preferences
-  preferences?: string[];
-  daily_routine?: string[];
-
-  // Collections
-  favorite_books?: string[];
-  favorite_movies?: string[];
-  favorite_podcasts?: string[];
-  predictions?: string[];
-
-  // Projects
-  projects?: {
-    technical?: string[];
-    creative?: string[];
-    personal?: string[];
-  };
-
-  // Metadata
-  last_updated?: string;
-  sync_status?: {
-    daemon_md?: string;
-  };
-}
+  ExternalLink,
+  Github,
+  Linkedin,
+  Rss,
+  AtSign,
+  User,
+  Crosshair,
+} from "lucide-react";
 
 /**
  * Error Boundary for graceful error handling
@@ -79,48 +51,23 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="p-4 rounded-lg border border-error/30 bg-error/10">
-          <p className="text-sm text-error">Failed to render section</p>
-        </div>
+      return (
+        this.props.fallback || (
+          <div className="p-4 border border-error/30 bg-error/10">
+            <p className="text-sm text-error">Failed to render section</p>
+          </div>
+        )
       );
     }
     return this.props.children;
   }
 }
 
-/**
- * Safe text renderer - handles undefined/null gracefully
- */
-function SafeText({ text, fallback = 'Not available' }: { text?: string; fallback?: string }) {
-  return <>{text || fallback}</>;
-}
-
-/**
- * Safe list renderer - handles undefined/null/empty arrays
- */
-function SafeList({
-  items,
-  fallback = 'No items available',
-  renderItem = (item: string, i: number) => (
-    <p key={i} className="text-sm text-text-secondary">{item}</p>
-  )
-}: {
-  items?: string[];
-  fallback?: string;
-  renderItem?: (item: string, index: number) => ReactNode;
-}) {
-  if (!items || items.length === 0) {
-    return <p className="text-sm text-text-tertiary italic">{fallback}</p>;
-  }
-  return <>{items.map(renderItem)}</>;
-}
-
 function StatusBar({
   isConnected,
   toolCount,
   currentTime,
-  lastUpdated
+  lastUpdated,
 }: {
   isConnected: boolean;
   toolCount: number;
@@ -131,24 +78,40 @@ function StatusBar({
     <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border-default bg-bg-secondary/80 backdrop-blur-sm px-4 py-3 mb-6"
+      className="flex flex-wrap items-center justify-between gap-4 border border-border-default bg-bg-secondary px-4 py-3 mb-6"
     >
       <div className="flex items-center gap-4">
-        <span className="font-mono font-bold text-sm text-accent">DAEMON://SALTEDKEYS</span>
+        <span className="font-mono font-bold text-sm text-brand">
+          DAEMON://RUDY
+        </span>
         <div className="flex items-center gap-2">
-          <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-success animate-pulse-slow' : 'bg-error'}`} />
+          <span
+            className={`w-2 h-2 rounded-full ${isConnected ? "bg-success animate-pulse-slow" : "bg-error"}`}
+          />
           <span className="font-mono text-xs text-text-secondary">
-            {isConnected ? 'CONNECTED' : 'OFFLINE'}
+            {isConnected ? "CONNECTED" : "OFFLINE"}
           </span>
         </div>
       </div>
       <div className="flex items-center gap-4 text-text-tertiary font-mono text-xs">
         <span>{toolCount} endpoints</span>
-        {lastUpdated && <span>Updated: {new Date(lastUpdated).toLocaleDateString()}</span>}
+        {lastUpdated && (
+          <span>Updated: {new Date(lastUpdated).toLocaleDateString()}</span>
+        )}
         <span>{currentTime.toISOString().slice(0, 10)}</span>
       </div>
     </motion.div>
   );
+}
+
+function ContactIcon({ platform }: { platform: string }) {
+  const p = platform.toLowerCase();
+  if (p.includes("github")) return <Github className="w-4 h-4" />;
+  if (p.includes("linkedin")) return <Linkedin className="w-4 h-4" />;
+  if (p.includes("mastodon")) return <AtSign className="w-4 h-4" />;
+  if (p.includes("substack") || p.includes("blog"))
+    return <Rss className="w-4 h-4" />;
+  return <ExternalLink className="w-4 h-4" />;
 }
 
 export function DaemonDashboard() {
@@ -156,52 +119,40 @@ export function DaemonDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [daemonData, setDaemonData] = useState<DaemonData>({});
+
+  // Data from generated file
+  const [about, setAbout] = useState("");
+  const [mission, setMission] = useState("");
+  const [telos, setTelos] = useState<string[]>([]);
+  const [explorations, setExplorations] = useState<Exploration[]>([]);
+  const [whatImBuilding, setWhatImBuilding] = useState<string[]>([]);
+  const [favoriteBooks, setFavoriteBooks] = useState<string[]>([]);
+  const [favoriteMovies, setFavoriteMovies] = useState<string[]>([]);
+  const [philosophy, setPhilosophy] = useState("");
+  const [contact, setContact] = useState<ContactLink[]>([]);
+  const [lastUpdated, setLastUpdated] = useState("");
   const [toolCount, setToolCount] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    fetchDaemonData();
+    loadData();
     return () => clearInterval(timer);
   }, []);
 
-  async function fetchDaemonData() {
-    // Data loaded from generated file (parsed from daemon.md at build time)
+  function loadData() {
     setToolCount(generatedToolCount);
-    setDaemonData({
-      about: generatedData.about,
-      mission: generatedData.mission,
-      telos: generatedData.telos,
-      current_location: generatedData.currentLocation,
-      preferences: generatedData.preferences,
-      daily_routine: generatedData.dailyRoutine,
-      favorite_books: generatedData.favoriteBooks,
-      favorite_movies: generatedData.favoriteMovies,
-      predictions: generatedData.predictions,
-      projects: {
-        technical: generatedData.whatImBuilding,
-      },
-      last_updated: generatedData.lastUpdated,
-    });
+    setAbout(generatedData.about);
+    setMission(generatedData.mission);
+    setTelos(generatedData.telos || []);
+    setExplorations(generatedData.explorations || []);
+    setWhatImBuilding(generatedData.whatImBuilding || []);
+    setFavoriteBooks(generatedData.favoriteBooks || []);
+    setFavoriteMovies(generatedData.favoriteMovies || []);
+    setPhilosophy(generatedData.philosophy || "");
+    setContact(generatedData.contact || []);
+    setLastUpdated(generatedData.lastUpdated);
     setIsConnected(true);
     setLoading(false);
-  }
-
-  function extractTelosId(item: string): string {
-    const match = item.match(/^([PMG]\d+)/);
-    return match ? match[1] : '??';
-  }
-
-  function extractTelosText(item: string): string {
-    return item.replace(/^[PMG]\d+:\s*/, '');
-  }
-
-  // Parse telos - can be string or array
-  function getTelosItems(): string[] {
-    if (!daemonData.telos) return [];
-    if (Array.isArray(daemonData.telos)) return daemonData.telos;
-    // If it's a string, split by newlines (backward compat)
-    return daemonData.telos.split('\n').filter(Boolean);
   }
 
   if (loading) {
@@ -209,7 +160,9 @@ export function DaemonDashboard() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col items-center justify-center py-20 gap-4">
           <Loader2 className="w-8 h-8 text-brand animate-spin" />
-          <p className="font-mono text-sm text-text-secondary">Establishing MCP connection...</p>
+          <p className="font-mono text-sm text-text-secondary">
+            Establishing MCP connection...
+          </p>
         </div>
       </div>
     );
@@ -222,8 +175,8 @@ export function DaemonDashboard() {
           <AlertCircle className="w-8 h-8 text-error" />
           <p className="font-mono text-sm text-error">{error}</p>
           <button
-            onClick={fetchDaemonData}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/20 text-accent hover:bg-accent/30 transition-colors font-mono text-sm"
+            onClick={loadData}
+            className="flex items-center gap-2 px-4 py-2 bg-accent/20 text-accent hover:bg-accent/30 transition-colors font-mono text-sm"
           >
             <RefreshCw className="w-4 h-4" />
             Retry
@@ -233,36 +186,34 @@ export function DaemonDashboard() {
     );
   }
 
-  const telosItems = getTelosItems();
-
   return (
     <div className="max-w-6xl mx-auto px-6 space-y-4">
       <StatusBar
         isConnected={isConnected}
         toolCount={toolCount}
         currentTime={currentTime}
-        lastUpdated={daemonData.last_updated}
+        lastUpdated={lastUpdated}
       />
 
-      {/* TIER 1: Core Purpose - 2 Columns */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Mission */}
+      {/* ROW 1: MISSION | TELOS - Primary/Hero Treatment */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* MISSION */}
         <ErrorBoundary>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="rounded-xl border border-border-default bg-bg-secondary/80 backdrop-blur-sm pt-5 px-5 pb-2 flex flex-col max-h-72"
+            className="border border-border-default bg-bg-secondary p-6"
           >
-            <div className="flex items-center gap-2 mb-3 shrink-0">
-              <Target className="w-5 h-5 text-accent" />
-              <span className="font-mono text-sm font-semibold tracking-wider text-text-tertiary uppercase">Mission</span>
+            <div className="flex items-center gap-2 mb-4">
+              <Target className="w-5 h-5 text-brand" />
+              <span className="font-mono text-sm font-semibold tracking-wider text-brand uppercase">
+                Mission
+              </span>
             </div>
-            <div className="overflow-y-auto flex-1 pr-1">
-              <p className="font-body text-base text-text-secondary leading-relaxed pb-3">
-                <SafeText text={daemonData.mission} fallback="Mission not available" />
-              </p>
-            </div>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              {mission || "Not available"}
+            </p>
           </motion.div>
         </ErrorBoundary>
 
@@ -272,209 +223,271 @@ export function DaemonDashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="rounded-xl border border-border-default bg-bg-secondary/80 backdrop-blur-sm pt-5 px-5 pb-2 flex flex-col max-h-72"
+            className="border border-border-default bg-bg-secondary p-6"
           >
-            <div className="flex items-center justify-between mb-3 shrink-0">
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Compass className="w-5 h-5 text-accent" />
-                <span className="font-mono text-sm font-semibold tracking-wider text-text-tertiary uppercase">TELOS Framework</span>
+                <Crosshair className="w-5 h-5 text-brand" />
+                <span className="font-mono text-sm font-semibold tracking-wider text-brand uppercase">
+                  Telos
+                </span>
               </div>
-              <a href="/telos" className="text-sm text-brand hover:underline">View all</a>
+              <a
+                href="/telos"
+                className="text-xs text-text-tertiary hover:text-brand transition-colors"
+              >
+                View all
+              </a>
             </div>
-            <div className="overflow-y-auto flex-1 pr-1">
-              <div className="space-y-2 pb-3">
-                {telosItems.length > 0 ? (
-                  telosItems.slice(0, 4).map((item, i) => (
-                    <div key={i} className="flex gap-2 text-sm">
-                      <span className="font-mono font-bold text-accent shrink-0">{extractTelosId(item)}</span>
-                      <span className="text-text-secondary">{extractTelosText(item)}</span>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-sm text-text-tertiary italic">TELOS not available</p>
-                )}
-              </div>
+            <div className="space-y-2">
+              {telos.slice(0, 4).map((item, i) => {
+                const match = item.match(/^([PMG]\d+):\s*(.+)$/);
+                if (!match)
+                  return (
+                    <p key={i} className="text-xs text-text-secondary">
+                      {item}
+                    </p>
+                  );
+                const [, id, rest] = match;
+                return (
+                  <div key={i} className="flex gap-2">
+                    <span className="font-mono text-xs font-bold text-accent shrink-0">
+                      {id}
+                    </span>
+                    <span className="text-xs text-text-secondary">{rest}</span>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         </ErrorBoundary>
       </div>
 
-      {/* TIER 2: Recommendations - 3 Columns */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Books */}
+      {/* ROW 2: EXPLORATIONS | WHAT I'M BUILDING - Secondary */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* EXPLORATIONS */}
         <ErrorBoundary>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="rounded-xl border border-border-default bg-bg-secondary/80 backdrop-blur-sm pt-5 px-5 pb-2 flex flex-col max-h-64"
+            className="border border-border-subtle bg-bg-secondary/80 p-5"
           >
-            <div className="flex items-center justify-between mb-3 shrink-0">
-              <div className="flex items-center gap-2">
-                <BookMarked className="w-5 h-5 text-text-tertiary" />
-                <span className="font-mono text-sm font-semibold tracking-wider text-text-tertiary uppercase">Books</span>
-              </div>
-              <span className="text-xs text-text-tertiary">{daemonData.favorite_books?.length || 0}</span>
+            <div className="flex items-center gap-2 mb-3">
+              <Compass className="w-4 h-4 text-text-tertiary" />
+              <span className="font-mono text-xs font-semibold tracking-wider text-text-tertiary uppercase">
+                Explorations
+              </span>
             </div>
-            <div className="overflow-y-auto flex-1 pr-1">
-              <div className="space-y-2 pb-3">
-                <SafeList items={daemonData.favorite_books} fallback="No books listed" />
-              </div>
+            <div className="space-y-2">
+              {explorations.length > 0 ? (
+                explorations.slice(0, 4).map((exp, i) => (
+                  <p key={i} className="text-xs text-text-secondary">
+                    <span className="text-text-primary">{exp.title}</span>
+                    <span className="text-text-tertiary"> — </span>
+                    {exp.description}
+                  </p>
+                ))
+              ) : (
+                <p className="text-xs text-text-tertiary italic">
+                  No explorations listed
+                </p>
+              )}
             </div>
           </motion.div>
         </ErrorBoundary>
 
-        {/* Movies */}
+        {/* WHAT I'M BUILDING */}
         <ErrorBoundary>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="rounded-xl border border-border-default bg-bg-secondary/80 backdrop-blur-sm pt-5 px-5 pb-2 flex flex-col max-h-96"
+            className="border border-border-subtle bg-bg-secondary/80 p-5"
           >
-            <div className="flex items-center justify-between mb-3 shrink-0">
-              <div className="flex items-center gap-2">
-                <Film className="w-5 h-5 text-text-tertiary" />
-                <span className="font-mono text-sm font-semibold tracking-wider text-text-tertiary uppercase">Movies</span>
-              </div>
-              <span className="text-xs text-text-tertiary">{daemonData.favorite_movies?.length || 0}</span>
+            <div className="flex items-center gap-2 mb-3">
+              <Wrench className="w-4 h-4 text-text-tertiary" />
+              <span className="font-mono text-xs font-semibold tracking-wider text-text-tertiary uppercase">
+                Building
+              </span>
             </div>
-            <div className="overflow-y-auto flex-1 pr-1">
-              <div className="space-y-2 pb-3">
-                <SafeList items={daemonData.favorite_movies} fallback="No movies listed" />
-              </div>
+            <div className="space-y-2">
+              {whatImBuilding.length > 0 ? (
+                whatImBuilding.map((item, i) => {
+                  const match = item.match(/^(.+?)\s*—\s*(.+)$/);
+                  if (!match)
+                    return (
+                      <p key={i} className="text-xs text-text-secondary">
+                        {item}
+                      </p>
+                    );
+                  const [, title, description] = match;
+                  return (
+                    <p key={i} className="text-xs text-text-secondary">
+                      <span className="text-text-primary">{title}</span>
+                      <span className="text-text-tertiary"> — </span>
+                      {description}
+                    </p>
+                  );
+                })
+              ) : (
+                <p className="text-xs text-text-tertiary italic">
+                  No projects listed
+                </p>
+              )}
             </div>
           </motion.div>
         </ErrorBoundary>
+      </div>
 
-        {/* Predictions */}
+      {/* ROW 3: CURRENTLY READING | FAVORITES - Tertiary/Dimmer */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 opacity-80">
+        {/* CURRENTLY READING */}
         <ErrorBoundary>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="rounded-xl border border-border-default bg-bg-secondary/80 backdrop-blur-sm pt-5 px-5 pb-2 flex flex-col max-h-64"
+            className="border border-border-subtle bg-bg-secondary/60 p-5"
           >
-            <div className="flex items-center justify-between mb-3 shrink-0">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-text-tertiary" />
-                <span className="font-mono text-sm font-semibold tracking-wider text-text-tertiary uppercase">Predictions</span>
-              </div>
-              <span className="text-xs text-text-tertiary">{daemonData.predictions?.length || 0}</span>
+            <div className="flex items-center gap-2 mb-3">
+              <BookOpen className="w-4 h-4 text-text-tertiary" />
+              <span className="font-mono text-xs font-semibold tracking-wider text-text-tertiary uppercase">
+                Currently Reading
+              </span>
             </div>
-            <div className="overflow-y-auto flex-1 pr-1">
-              <div className="space-y-2 pb-3">
-                <SafeList items={daemonData.predictions} fallback="No predictions listed" />
-              </div>
+            <div className="space-y-2">
+              <p className="text-xs text-text-secondary">
+                <span className="text-text-primary">
+                  A Philosophy of Software Design
+                </span>
+                <span className="text-text-tertiary"> — </span>John Ousterhout
+              </p>
+              <p className="text-xs text-text-secondary">
+                <span className="text-text-primary">Project Hail Mary</span>
+                <span className="text-text-tertiary"> — </span>Andy Weir
+              </p>
+              <p className="text-xs text-text-secondary">
+                <span className="text-text-primary">Oathbringer</span>
+                <span className="text-text-tertiary"> — </span>Brandon Sanderson
+              </p>
+              <p className="text-xs text-text-secondary">
+                <span className="text-text-primary">The Daily Stoic</span>
+                <span className="text-text-tertiary"> — </span>Ryan Holiday
+              </p>
+              <p className="text-xs text-text-secondary">
+                <span className="text-text-primary">Meditations</span>
+                <span className="text-text-tertiary"> — </span>Marcus Aurelius
+              </p>
             </div>
           </motion.div>
         </ErrorBoundary>
-      </div>
 
-      {/* TIER 3: Context - 3 Columns */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Preferences */}
+        {/* FAVORITES */}
         <ErrorBoundary>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="rounded-xl border border-border-subtle bg-bg-secondary/60 backdrop-blur-sm pt-5 px-5 pb-2 flex flex-col max-h-64"
+            className="border border-border-subtle bg-bg-secondary/60 p-5"
           >
-            <div className="flex items-center gap-2 mb-3 shrink-0">
-              <Settings className="w-5 h-5 text-text-tertiary" />
-              <span className="font-mono text-sm font-semibold tracking-wider text-text-tertiary uppercase">Preferences</span>
+            <div className="flex items-center gap-2 mb-3">
+              <Heart className="w-4 h-4 text-text-tertiary" />
+              <span className="font-mono text-xs font-semibold tracking-wider text-text-tertiary uppercase">
+                Favorites
+              </span>
             </div>
-            <div className="overflow-y-auto flex-1 pr-1">
-              <div className="space-y-2 pb-3">
-                <SafeList
-                  items={daemonData.preferences}
-                  fallback="No preferences listed"
-                  renderItem={(pref, i) => (
-                    <p key={i} className="text-sm text-text-tertiary">{pref}</p>
-                  )}
-                />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                {favoriteBooks.slice(0, 5).map((book, i) => {
+                  const match = book.match(/^(.+?)\s*—\s*(.+)$/);
+                  if (!match)
+                    return (
+                      <p key={i} className="text-xs text-text-secondary">
+                        {book}
+                      </p>
+                    );
+                  const [, title, author] = match;
+                  return (
+                    <p key={i} className="text-xs text-text-secondary">
+                      <span className="text-text-primary">{title}</span>
+                      <span className="text-text-tertiary"> — </span>
+                      {author}
+                    </p>
+                  );
+                })}
               </div>
-            </div>
-          </motion.div>
-        </ErrorBoundary>
-
-        {/* Daily Routine */}
-        <ErrorBoundary>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35 }}
-            className="rounded-xl border border-border-subtle bg-bg-secondary/60 backdrop-blur-sm pt-5 px-5 pb-2 flex flex-col max-h-64"
-          >
-            <div className="flex items-center justify-between mb-3 shrink-0">
-              <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-text-tertiary" />
-                <span className="font-mono text-sm font-semibold tracking-wider text-text-tertiary uppercase">Routine</span>
-              </div>
-              <span className="text-xs text-text-tertiary">{daemonData.daily_routine?.length || 0}</span>
-            </div>
-            <div className="overflow-y-auto flex-1 pr-1">
-              <div className="space-y-2 pb-3">
-                <SafeList
-                  items={daemonData.daily_routine}
-                  fallback="No routine listed"
-                  renderItem={(item, i) => (
-                    <p key={i} className="text-sm text-text-tertiary">{item}</p>
-                  )}
-                />
-              </div>
-            </div>
-          </motion.div>
-        </ErrorBoundary>
-
-        {/* Projects */}
-        <ErrorBoundary>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="rounded-xl border border-border-subtle bg-bg-secondary/60 backdrop-blur-sm pt-5 px-5 pb-2 flex flex-col max-h-64"
-          >
-            <div className="flex items-center gap-2 mb-3 shrink-0">
-              <Briefcase className="w-5 h-5 text-text-tertiary" />
-              <span className="font-mono text-sm font-semibold tracking-wider text-text-tertiary uppercase">Projects</span>
-            </div>
-            <div className="overflow-y-auto flex-1 pr-1">
-              <div className="space-y-2 pb-3">
-                <SafeList
-                  items={daemonData.projects?.technical}
-                  fallback="No projects listed"
-                  renderItem={(proj, i) => (
-                    <p key={i} className="text-sm text-text-tertiary">{proj}</p>
-                  )}
-                />
+              <div className="space-y-2">
+                {favoriteMovies.slice(0, 5).map((movie, i) => {
+                  const match = movie.match(/^(.+?)\s*—\s*(.+)$/);
+                  if (!match)
+                    return (
+                      <p key={i} className="text-xs text-text-secondary">
+                        {movie}
+                      </p>
+                    );
+                  const [, title, annotation] = match;
+                  return (
+                    <p key={i} className="text-xs text-text-secondary">
+                      <span className="text-text-primary">{title}</span>
+                      <span className="text-text-tertiary"> — </span>
+                      {annotation}
+                    </p>
+                  );
+                })}
               </div>
             </div>
           </motion.div>
         </ErrorBoundary>
       </div>
 
-      {/* TIER 4: API Access - Centered Footer */}
+      {/* FOOTER: Philosophy Quote + Contact + API */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.45 }}
-        className="flex justify-center pt-4"
+        transition={{ delay: 0.35 }}
+        className="pt-4 border-t border-border-subtle space-y-4"
       >
-        <div className="rounded-xl border border-border-subtle bg-bg-tertiary/50 backdrop-blur-sm p-6 max-w-md w-full text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <Server className="w-5 h-5 text-text-tertiary" />
-            <span className="font-mono text-sm font-semibold tracking-wider text-text-tertiary uppercase">API Access</span>
+        {/* Philosophy as subtle quote */}
+        {philosophy && (
+          <p className="text-xs text-text-tertiary italic text-center">
+            "{philosophy}"
+          </p>
+        )}
+
+        {/* Contact + API */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          {/* Contact Links */}
+          <div className="flex items-center gap-4">
+            {contact.map((link, i) => (
+              <a
+                key={i}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-tertiary hover:text-brand transition-colors"
+                title={link.platform}
+              >
+                <ContactIcon platform={link.platform} />
+              </a>
+            ))}
           </div>
-          <code className="font-mono text-base text-brand block mb-3">daemon.saltedkeys.io</code>
-          <p className="text-sm text-text-tertiary mb-4">Connect your AI assistant directly</p>
-          <a
-            href="/api/"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-bg-secondary hover:bg-bg-elevated text-text-secondary hover:text-text-primary border border-border-subtle transition-colors text-sm font-mono"
-          >
-            View API Docs <ExternalLink className="w-4 h-4" />
-          </a>
+
+          {/* API Access */}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Server className="w-4 h-4 text-text-tertiary" />
+              <code className="font-mono text-sm text-brand">
+                daemon.voidwire.info
+              </code>
+            </div>
+            <a
+              href="/api/"
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-bg-tertiary hover:bg-bg-elevated text-text-secondary hover:text-text-primary border border-border-subtle transition-colors text-xs font-mono"
+            >
+              API Docs <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
         </div>
       </motion.div>
     </div>

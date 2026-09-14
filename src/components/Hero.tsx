@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
-import { Terminal, Zap, Globe, MapPin } from 'lucide-react';
-import { heroData } from '../generated/daemon-data';
+import { motion } from "framer-motion";
+import { Terminal, Zap, Globe, MapPin } from "lucide-react";
+import { heroData } from "../generated/daemon-data";
 
 export function Hero() {
   const location = heroData.location;
@@ -23,23 +23,24 @@ export function Hero() {
           </div>
         </motion.div>
 
-        {/* Subtitle */}
+        {/* Tagline */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="font-heading text-lg text-text-secondary mb-3"
+          className="font-heading text-lg text-brand mb-3"
         >
-          <a href="https://context-you-keep.ai" className="text-brand hover:underline">The Context You Keep</a>
+          {heroData.tagline}
         </motion.p>
 
+        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
           className="font-body text-lg text-text-secondary max-w-2xl mx-auto mb-5"
         >
-          Building open infrastructure for personal data sovereignty. Privacy-first, self-hosted, MIT licensed. Your data, your AI relationships, your context.
+          {heroData.subtitle}
         </motion.p>
 
         {/* Location */}
@@ -68,11 +69,15 @@ export function Hero() {
           </div>
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-secondary border border-border-subtle">
             <Zap className="w-3.5 h-3.5 text-success" />
-            <span className="font-mono text-xs text-text-secondary">Real-time</span>
+            <span className="font-mono text-xs text-text-secondary">
+              Real-time
+            </span>
           </div>
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-secondary border border-border-subtle">
             <Globe className="w-3.5 h-3.5 text-accent" />
-            <span className="font-mono text-xs text-text-secondary">Public</span>
+            <span className="font-mono text-xs text-text-secondary">
+              Public
+            </span>
           </div>
           <a
             href="/api/"
