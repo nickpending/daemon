@@ -10,11 +10,11 @@
     "prebuild": "bun run parse-daemon",
     "dev": "bun run parse-daemon && astro dev",
     "build": "astro build",
+    "typecheck": "astro check",
     "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
-    "@cloudflare/kv-asset-handler": "^0.4.1",
     "astro": "^5.16.2",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.555.0",
@@ -23,11 +23,12 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@tailwindcss/vite": "^4.1.17",
-    "@types/bun": "latest",
+    "@types/bun": "^1.4.2",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "tailwindcss": "^4.1.17",
-    "typescript": "^5"
+    "typescript": "^6"
   }
 }

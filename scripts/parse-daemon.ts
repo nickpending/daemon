@@ -1,3 +1,4 @@
+/// <reference types="bun" />
 /**
  * Build-time parser for daemon.md
  *
