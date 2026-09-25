@@ -41,3 +41,6 @@ docs/internal/
 
 # Private journal
 .private-journal/
+
+# Empty scaffold tree, never used
+.workflow/
