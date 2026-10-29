@@ -9,7 +9,6 @@ import type { Exploration, ContactLink } from "../types/daemon.types";
 import {
   Target,
   Compass,
-  BookOpen,
   Heart,
   Wrench,
   MessageSquare,
@@ -89,12 +88,12 @@ function StatusBar({
             className={`w-2 h-2 rounded-full ${isConnected ? "bg-success animate-pulse-slow" : "bg-error"}`}
           />
           <span className="font-mono text-xs text-text-secondary">
-            {isConnected ? "CONNECTED" : "OFFLINE"}
+            {isConnected ? "PUBLISHED" : "OFFLINE"}
           </span>
         </div>
       </div>
       <div className="flex items-center gap-4 text-text-tertiary font-mono text-xs">
-        <span>{toolCount} endpoints</span>
+        <span>daemon.md</span>
         {lastUpdated && (
           <span>Updated: {new Date(lastUpdated).toLocaleDateString()}</span>
         )}
@@ -161,7 +160,7 @@ export function DaemonDashboard() {
         <div className="flex flex-col items-center justify-center py-20 gap-4">
           <Loader2 className="w-8 h-8 text-brand animate-spin" />
           <p className="font-mono text-sm text-text-secondary">
-            Establishing MCP connection...
+            Loading daemon.md…
           </p>
         </div>
       </div>
@@ -340,49 +339,8 @@ export function DaemonDashboard() {
         </ErrorBoundary>
       </div>
 
-      {/* ROW 3: CURRENTLY READING | FAVORITES - Tertiary/Dimmer */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 opacity-80">
-        {/* CURRENTLY READING */}
-        <ErrorBoundary>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            className="border border-border-subtle bg-bg-secondary/60 p-5"
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <BookOpen className="w-4 h-4 text-text-tertiary" />
-              <span className="font-mono text-xs font-semibold tracking-wider text-text-tertiary uppercase">
-                Currently Reading
-              </span>
-            </div>
-            <div className="space-y-2">
-              <p className="text-xs text-text-secondary">
-                <span className="text-text-primary">
-                  A Philosophy of Software Design
-                </span>
-                <span className="text-text-tertiary"> — </span>John Ousterhout
-              </p>
-              <p className="text-xs text-text-secondary">
-                <span className="text-text-primary">Project Hail Mary</span>
-                <span className="text-text-tertiary"> — </span>Andy Weir
-              </p>
-              <p className="text-xs text-text-secondary">
-                <span className="text-text-primary">Oathbringer</span>
-                <span className="text-text-tertiary"> — </span>Brandon Sanderson
-              </p>
-              <p className="text-xs text-text-secondary">
-                <span className="text-text-primary">The Daily Stoic</span>
-                <span className="text-text-tertiary"> — </span>Ryan Holiday
-              </p>
-              <p className="text-xs text-text-secondary">
-                <span className="text-text-primary">Meditations</span>
-                <span className="text-text-tertiary"> — </span>Marcus Aurelius
-              </p>
-            </div>
-          </motion.div>
-        </ErrorBoundary>
-
+      {/* ROW 3: FAVORITES - Tertiary/Dimmer */}
+      <div className="grid grid-cols-1 gap-4 opacity-80">
         {/* FAVORITES */}
         <ErrorBoundary>
           <motion.div

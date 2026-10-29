@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Terminal, Zap, Globe, MapPin } from "lucide-react";
+import { Globe, MapPin } from "lucide-react";
 import { heroData } from "../generated/daemon-data";
 
 export function Hero() {
@@ -63,16 +63,6 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.25 }}
           className="flex flex-wrap items-center justify-center gap-2"
         >
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-secondary border border-border-subtle">
-            <Terminal className="w-3.5 h-3.5 text-text-tertiary" />
-            <span className="font-mono text-xs text-text-secondary">MCP</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-secondary border border-border-subtle">
-            <Zap className="w-3.5 h-3.5 text-success" />
-            <span className="font-mono text-xs text-text-secondary">
-              Real-time
-            </span>
-          </div>
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-secondary border border-border-subtle">
             <Globe className="w-3.5 h-3.5 text-accent" />
             <span className="font-mono text-xs text-text-secondary">

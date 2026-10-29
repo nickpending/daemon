@@ -27,23 +27,23 @@ Define the hacker-strategist by doing the work. Technical depth combined with st
 
 [TELOS]
 Problems (P) - What I'm working to solve:
-- P1: Expertise has the same velocity problem as data: what people know doesn't flow to where it's needed
-- P2: An agent's claim is not evidence, and most AI security tooling cannot tell the difference
-- P3: Technical-strategic thinkers lack organizational homes; the hacker-strategist doesn't fit existing roles
-- P4: Defenders carry structural weight attackers don't: compliance, approvals, organizational friction
-- P5: Timeliness in security discovery: significant delays from identification to protection
+- P1: Expertise has a velocity problem — what people know doesn't flow to where it's needed, any more than data does
+- P2: An agent's claim is not evidence — most AI security tooling cannot tell the difference
+- P3: Technical-strategic thinkers lack organizational homes — the hacker-strategist doesn't fit existing roles
+- P4: Defenders carry structural weight attackers don't — compliance, approvals, organizational friction
+- P5: Timeliness in security discovery — significant delays from identification to protection
 
 Missions (M) - What I'm doing about it:
-- M1: Encode domain expertise into systems that scale: agents, harnesses and doctrine others can build on
-- M2: Build verification that never trusts the agent that produced the claim
-- M3: Embody and define the hacker-strategist role, demonstrating where it lives and what it produces
-- M4: Build systems that reduce defender friction, automation that handles drudgery so humans focus on judgment
+- M1: Encode domain expertise into systems that scale — agents, harnesses and doctrine others can build on
+- M2: Build verification that never trusts the agent — every claim replayed in an isolated environment
+- M3: Embody and define the hacker-strategist role — demonstrate where it lives and what it produces
+- M4: Build systems that reduce defender friction — automation that handles drudgery so humans focus on judgment
 
 Goals (G) - Where I'm headed:
-- G1: Agents that retire whole vulnerability classes, with evidence that outlives the run
-- G2: A doctrine corpus agents read at design time, so what worked once keeps working
-- G3: Publish the work that demonstrates the hacker-strategist and what it produces
-- G4: Automate defender drudgery: free analysts for judgment, not process
+- G1: Agents that retire whole vulnerability classes — with evidence that outlives the run
+- G2: A doctrine corpus agents read at design time — so what worked once keeps working
+- G3: Publish the work — demonstrate the hacker-strategist and what it produces
+- G4: Automate defender drudgery — free analysts for judgment, not process
 
 Theme: "The pursuit itself is the purpose."
 

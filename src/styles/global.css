@@ -1,135 +1,47 @@
 @import "tailwindcss";
 
-/* Custom Fonts */
-@font-face {
-  font-family: 'Concourse';
-  src: url('/fonts/concourse_3_regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Concourse';
-  src: url('/fonts/concourse_3_bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Concourse Medium';
-  src: url('/fonts/concourse_4_regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Concourse Medium';
-  src: url('/fonts/concourse_4_bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Valkyrie';
-  src: url('/fonts/valkyrie_a_regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Valkyrie';
-  src: url('/fonts/valkyrie_a_bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Valkyrie';
-  src: url('/fonts/valkyrie_a_italic.woff2') format('woff2');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Advocate';
-  src: url('/fonts/advocate_34_narr_reg.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Advocate Wide';
-  src: url('/fonts/advocate_54_wide_reg.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Heliotrope';
-  src: url('/fonts/heliotrope_3_regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Heliotrope Caps';
-  src: url('/fonts/heliotrope_3_caps_regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Tailwind v4 Theme - Tokyo Noir / Daemon Colors */
+/* Tailwind v4 theme: voidwire's tokens, so this site matches labs.voidwire.info.
+ * Values are voidwire's tokens.css (purple-primary, bg #08080c). Edit there, mirror here. */
 @theme {
-  /* Brand Colors - Cyan for Daemon */
-  --color-brand: #00D9FF;
-  --color-brand-light: #33E1FF;
-  --color-brand-dark: #00A8C6;
-  --color-brand-glow: rgba(0, 217, 255, 0.3);
+  /* Primary: voidwire --pur */
+  --color-brand: #9F4DFF;
+  --color-brand-light: #b97dff;
+  --color-brand-dark: #7B2FCC;
+  --color-brand-glow: rgba(159, 77, 255, 0.28);
 
-  /* Accent - Purple */
-  --color-accent: #9F4DFF;
+  /* Accent: voidwire --cy */
+  --color-accent: #5ad7ff;
   --color-accent-light: #E6CCFF;
-  --color-accent-dark: #7B2FCC;
+  --color-accent-dark: #1b3a44;
 
-  /* Semantic Colors (Muted) */
-  --color-success: #4a9e6b;
-  --color-warning: #a68a4d;
-  --color-error: #a65d6d;
+  /* Semantic: voidwire --grn --amb --red */
+  --color-success: #46d39a;
+  --color-warning: #ffb454;
+  --color-error: #ff6b7a;
 
-  /* Background - Tokyo Noir */
-  --color-bg-primary: #0a0e14;
-  --color-bg-secondary: #0f1419;
-  --color-bg-tertiary: #151b23;
-  --color-bg-elevated: #1a2029;
+  /* Surfaces: voidwire --bg --panel --panel2 */
+  --color-bg-primary: #08080c;
+  --color-bg-secondary: #0f0f16;
+  --color-bg-tertiary: #14141d;
+  --color-bg-elevated: #1c1c27;
 
-  /* Text */
-  --color-text-primary: #EEEEEE;
-  --color-text-secondary: #BBBBBB;
-  --color-text-tertiary: #666666;
+  /* Ink: voidwire --ink --read --dim */
+  --color-text-primary: #e8e8f0;
+  --color-text-secondary: #c6c6d0;
+  --color-text-tertiary: #5a5a68;
 
-  /* Borders */
-  --color-border-subtle: rgba(51, 51, 51, 0.5);
-  --color-border-default: #333333;
-  --color-border-emphasis: rgba(0, 217, 255, 0.3);
+  /* Borders: voidwire --line and --edge-pur */
+  --color-border-subtle: rgba(35, 35, 47, 0.7);
+  --color-border-default: #23232f;
+  --color-border-emphasis: #2e2440;
 
-  /* Fonts */
-  --font-display: 'Advocate Wide', 'Advocate', sans-serif;
-  --font-heading: 'Concourse Medium', 'Concourse', sans-serif;
-  --font-body: 'Valkyrie', Georgia, serif;
-  --font-accent: 'Heliotrope Caps', 'Heliotrope', sans-serif;
-  --font-sans: 'Concourse', system-ui, sans-serif;
-  --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+  /* Type: voidwire's stacks; no webfonts, same as labs */
+  --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  --font-heading: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  --font-accent: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 /* Base Styles */
@@ -243,7 +155,7 @@ body {
 .bg-orb-2 {
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(157, 124, 216, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(90, 215, 255, 0.12) 0%, transparent 70%);
   animation: orb2-float 15s ease-in-out infinite;
 }
 
