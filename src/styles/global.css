@@ -197,8 +197,8 @@ body {
 /* Grid background */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(0, 217, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 217, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(159, 77, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(159, 77, 255, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
