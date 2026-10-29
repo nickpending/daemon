@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Terminal, FileText, Target } from 'lucide-react';
+import { Terminal, Target } from 'lucide-react';
 
 export function Nav() {
   const { scrollY } = useScroll();
@@ -37,13 +37,6 @@ export function Nav() {
         {/* Navigation Links */}
         <div className="flex items-center gap-6">
           <a
-            href="/api"
-            className="flex items-center gap-2 text-text-secondary hover:text-brand transition-colors font-sans text-sm"
-          >
-            <FileText className="w-4 h-4" />
-            <span className="hidden sm:inline">API Docs</span>
-          </a>
-          <a
             href="/telos"
             className="flex items-center gap-2 text-text-secondary hover:text-brand transition-colors font-sans text-sm"
           >
@@ -51,10 +44,10 @@ export function Nav() {
             <span className="hidden sm:inline">TELOS</span>
           </a>
           <a
-            href="/api"
+            href="/daemon.md"
             className="px-4 py-2 rounded-lg font-heading font-medium text-sm bg-brand/20 hover:bg-brand/30 text-brand border border-brand/30 transition-all duration-300"
           >
-            API
+            daemon.md
           </a>
         </div>
       </div>

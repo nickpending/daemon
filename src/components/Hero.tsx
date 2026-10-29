@@ -80,10 +80,10 @@ export function Hero() {
             </span>
           </div>
           <a
-            href="/api/"
+            href="/daemon.md"
             className="px-4 py-1.5 rounded-lg font-heading font-medium text-xs bg-bg-secondary hover:bg-bg-tertiary text-text-secondary border border-border-subtle transition-all duration-300"
           >
-            API Docs
+            daemon.md
           </a>
         </motion.div>
       </div>
